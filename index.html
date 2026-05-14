@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PAYMENT MASERWIN</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#07182E;
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+color:white;
+overflow:hidden;
+}
+
+/* LOADING */
+
+#loading{
+position:fixed;
+inset:0;
+background:linear-gradient(
+135deg,
+#020024,
+#07182E,
+#0A2647,
+#144272
+);
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:9999;
+padding:20px;
+}
+
+/* VIDEO BOX */
+
+.video-box{
+width:320px;
+height:180px;
+border-radius:25px;
+padding:4px;
+background:rgba(0,170,255,0.15);
+box-shadow:
+0 0 20px rgba(0,170,255,0.25);
+overflow:hidden;
+}
+
+/* VIDEO */
+
+#introVideo{
+width:100%;
+height:100%;
+object-fit:cover;
+border-radius:22px;
+display:block;
+}
+
+/* TEXT */
+
+.welcome-text{
+margin-top:28px;
+font-size:26px;
+font-weight:700;
+text-align:center;
+line-height:1.4;
+background:linear-gradient(
+90deg,
+#7FDBFF,
+#4DB8FF,
+#B8E8FF
+);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.loading-text{
+margin-top:12px;
+font-size:14px;
+font-weight:500;
+letter-spacing:1px;
+color:#D6ECFF;
+opacity:0.9;
+}
+
+/* MAIN */
+
+.container{
+width:370px;
+background:#0D223D;
+border-radius:22px;
+padding:25px;
+border:1px solid rgba(255,255,255,0.08);
+}
+
+.title{
+text-align:center;
+font-size:30px;
+font-weight:700;
+margin-bottom:5px;
+color:#4DB8FF;
+}
+
+.subtitle{
+text-align:center;
+font-size:13px;
+opacity:0.7;
+margin-bottom:20px;
+}
+
+.telegram-btn{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+background:#229ED9;
+padding:12px;
+border-radius:14px;
+text-decoration:none;
+color:white;
+font-weight:600;
+margin-bottom:20px;
+}
+
+.telegram-btn img{
+width:22px;
+}
+
+.menu{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.menu button{
+flex:1;
+padding:12px;
+border:none;
+border-radius:12px;
+background:#163457;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+.card{
+display:none;
+}
+
+.card.active{
+display:block;
+}
+
+.pay-box{
+background:#102947;
+padding:20px;
+border-radius:18px;
+text-align:center;
+}
+
+.ewallet-logo{
+width:90px;
+height:auto;
+margin-bottom:15px;
+}
+
+.pay-box h2{
+margin-bottom:12px;
+color:#7FDBFF;
+}
+
+.number{
+background:#07182E;
+padding:14px;
+border-radius:12px;
+margin-bottom:10px;
+font-size:15px;
+word-break:break-all;
+}
+
+.name{
+font-size:13px;
+opacity:0.7;
+margin-bottom:15px;
+}
+
+.action{
+display:flex;
+justify-content:center;
+gap:10px;
+}
+
+.action button{
+padding:10px 15px;
+border:none;
+border-radius:10px;
+background:#4DB8FF;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+/* QRIS */
+
+.qris-box{
+position:relative;
+background:#050B18;
+border:1px solid rgba(0,170,255,0.25);
+border-radius:20px;
+padding:20px;
+overflow:hidden;
+}
+
+.qris-box::before{
+content:'';
+position:absolute;
+inset:0;
+background-image:
+linear-gradient(rgba(0,170,255,0.05) 1px, transparent 1px),
+linear-gradient(90deg, rgba(0,170,255,0.05) 1px, transparent 1px);
+background-size:25px 25px;
+pointer-events:none;
+}
+
+.hud-line{
+position:absolute;
+width:35px;
+height:35px;
+border-color:#00AAFF;
+border-style:solid;
+}
+
+.top-left{
+top:10px;
+left:10px;
+border-width:3px 0 0 3px;
+}
+
+.top-right{
+top:10px;
+right:10px;
+border-width:3px 3px 0 0;
+}
+
+.bottom-left{
+bottom:10px;
+left:10px;
+border-width:0 0 3px 3px;
+}
+
+.bottom-right{
+bottom:10px;
+right:10px;
+border-width:0 3px 3px 0;
+}
+
+.scan-text{
+text-align:center;
+font-size:12px;
+letter-spacing:2px;
+color:#65CFFF;
+margin-bottom:18px;
+opacity:0.8;
+}
+
+/* NAMA */
+
+.account-box{
+margin-bottom:12px;
+padding-left:3px;
+}
+
+.label-akun{
+font-size:10px;
+letter-spacing:2px;
+color:#7AD7FF;
+opacity:0.7;
+display:block;
+margin-bottom:4px;
+}
+
+.account-name{
+font-size:18px;
+font-weight:600;
+letter-spacing:1px;
+color:#00B7FF;
+}
+
+/* QR */
+
+.qris-frame{
+background:white;
+padding:12px;
+border-radius:12px;
+border:2px solid #00AAFF;
+}
+
+.qris-img{
+width:100%;
+display:block;
+border-radius:8px;
+}
+
+/* DOWNLOAD */
+
+.download-area{
+margin-top:15px;
+}
+
+.save-btn{
+display:block;
+text-align:center;
+background:#00AAFF;
+padding:12px;
+border-radius:12px;
+text-decoration:none;
+font-weight:600;
+font-size:14px;
+color:white;
+}
+
+/* FOOTER */
+
+.footer{
+margin-top:20px;
+text-align:center;
+font-size:12px;
+opacity:0.6;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADING -->
+
+<div id="loading">
+
+<div class="video-box">
+
+<video autoplay muted loop playsinline id="introVideo">
+<source src="https://files.catbox.moe/an2z78.mp4" type="video/mp4">
+</video>
+
+</div>
+
+<div class="welcome-text">
+SELAMAT DATANG<br>
+DI PAYMENT MASERWIN
+</div>
+
+<div class="loading-text">
+SABAR BOS LAGI LOADING...
+</div>
+
+</div>
+
+<!-- MUSIC -->
+
+<audio autoplay loop id="bgMusic">
+<source src="https://files.catbox.moe/pilvci.mp3" type="audio/mpeg">
+</audio>
+
+<!-- MAIN -->
+
+<div class="container">
+
+<div class="title">
+PAYMENT MASERWIN
+</div>
+
+<div class="subtitle">
+Simple Premium Payment
+</div>
+
+<a class="telegram-btn"
+href="https://t.me/aboutwinz"
+target="_blank">
+
+<img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png">
+
+Contact Telegram
+
+</a>
+
+<div class="menu">
+<button onclick="showPay('dana')">DANA</button>
+<button onclick="showPay('gopay')">GOPAY</button>
+<button onclick="showPay('qris')">QRIS</button>
+</div>
+
+<!-- DANA -->
+
+<div class="card active" id="dana">
+
+<div class="pay-box">
+
+<img class="ewallet-logo"
+src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg">
+
+<h2>PAYMENT DANA</h2>
+
+<div class="number" id="danaNumber">
+0858883630287
+</div>
+
+<div class="name">
+A/N : HASANUDDIN J***
+</div>
+
+<div class="action">
+<button onclick="copyText('danaNumber')">
+COPY DANA
+</button>
+</div>
+
+</div>
+</div>
+
+<!-- GOPAY -->
+
+<div class="card" id="gopay">
+
+<div class="pay-box">
+
+<img class="ewallet-logo"
+src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg">
+
+<h2>PAYMENT GOPAY</h2>
+
+<div class="number" id="gopayNumber">
+085883630287
+</div>
+
+<div class="name">
+A/N : ERWIN SET*****
+</div>
+
+<div class="action">
+<button onclick="copyText('gopayNumber')">
+COPY GOPAY
+</button>
+</div>
+
+</div>
+</div>
+
+<!-- QRIS -->
+
+<div class="card" id="qris">
+
+<div class="qris-box">
+
+<div class="hud-line top-left"></div>
+<div class="hud-line top-right"></div>
+<div class="hud-line bottom-left"></div>
+<div class="hud-line bottom-right"></div>
+
+<div class="scan-text">
+SECURE PAYMENT • QRIS SYSTEM
+</div>
+
+<div class="account-box">
+
+<span class="label-akun">
+AKUN
+</span>
+
+<div class="account-name">
+ERWIN SETIAWAN
+</div>
+
+</div>
+
+<div class="qris-frame">
+
+<img class="qris-img"
+src="https://files.catbox.moe/yr75hc.jpg">
+
+</div>
+
+<div class="download-area">
+
+<a class="save-btn"
+href="https://files.catbox.moe/yr75hc.jpg"
+download>
+
+DOWNLOAD QRIS
+
+</a>
+
+</div>
+
+</div>
+</div>
+
+<div class="footer">
+© 2026 PAYMENT MASERWIN
+</div>
+
+</div>
+
+<script>
+function showPay(id){
+document.querySelectorAll('.card')
+.forEach(card=>{
+card.classList.remove('active');
+});
+
+document.getElementById(id)
+.classList.add('active');
+}
+
+function copyText(id){
+const text=document.getElementById(id).innerText;
+
+navigator.clipboard.writeText(text);
+
+alert('Berhasil copy: ' + text);
+}
+
+/* LOADING */
+
+window.onload = () => {
+setTimeout(() => {
+document.getElementById("loading").style.display = "none";
+},3000);
+}
+
+/* AUTOPLAY MUSIC */
+
+const music = document.getElementById("bgMusic");
+
+document.body.addEventListener("click", () => {
+music.play();
+}, { once:true });
+</script>
+
+</body>
+</html>
